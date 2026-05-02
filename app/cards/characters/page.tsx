@@ -2119,13 +2119,6 @@ const changeForm = () => {
   }, 150);
 };
 
-const activeForm =
-  selectedCard?.forms?.[selectedFormIndex] ?? selectedCard ?? null;
-
-const activeWeapon = activeForm?.weapon ?? selectedCard?.weapon;
-const activeElement = activeForm?.element ?? selectedCard?.element;
-const activeHp = activeForm?.hp ?? selectedCard?.hp;
-
 return (
   <>
     {/* MAIN PAGE */}
@@ -2194,7 +2187,14 @@ return (
     </div>
 
     {/* MODAL */}
-    {selectedCard && activeForm && (
+{selectedCard &&
+  (() => {
+    const activeForm = selectedCard.forms?.[selectedFormIndex] ?? selectedCard;
+    const activeWeapon = activeForm.weapon ?? selectedCard.weapon;
+    const activeElement = activeForm.element ?? selectedCard.element;
+    const activeHp = activeForm.hp ?? selectedCard.hp;
+
+    return (
       <div
         className={`fixed inset-0 z-50 flex items-center justify-center ${
           isClosing ? "animate-fadeOut" : "animate-fadeIn"
@@ -2315,8 +2315,9 @@ return (
             </div>
           </div>
         </div>
-      </div>
-    )}
+            </div>
+    );
+  })()}
   </>
 );
 }
